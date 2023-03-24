@@ -1,0 +1,92 @@
+{% extends "items/base.html" %} 
+{% block content %}
+    <!-- Adding welcome section -->
+    {% if user.username %}
+    <div class="px-4 pt-4 pb-0 mb-0">
+        <p class="text-xl text-white ">
+            Welcome {{user.username}}
+        </p>
+    </div>
+    {% endif %}
+<div class="flex-col flex justify-between items-center items-center bg-gray-700 text-white pb-8">
+    <div class="grid md:grid-cols-4  sm:colums-1 m-4 px-4 pb-4 justify-center md:rows-2">
+        {% for item in items %}
+            <div class="flex flex-col text-black m-4 p-4 justify-between bg-gray-200 rounded-lg border-black" >
+                <!-- Makin like icon -->
+                <div class=" flex items-start justify-end px-4 pt-2">   
+                    <form method="POST" action="{% url 'like' item.pk%}" >
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit">
+                                {% if item.favorite %}
+                                <i class="fa-lg fa fa-thumbs-up" style="color:gray"></i>
+                                {% else %}
+                                <i class="fa fa-lg fa-thumbs-up" style="color:black"></i>
+                                {% endif %}
+                            </button>
+                    </form>
+                </div>
+                <img class="rounded-full" src={{item.image.url}}/>
+                <p class="pt-4 px-4 text-2xl font-medium">
+                    <a href="{% url 'update' item.id%}">
+                        {{ item.itemName }}
+                    </a>
+                </p>
+                <p class="text-xl px-4 font-sm">
+                    Qty remaining: {{ item.qty }}
+                </p>
+                <p class="text-xl px-4 font-sm">
+                    Price: {{ item.price }}
+                </p>
+                <!-- Make tags appear when they are non empty -->
+                <p class="text-xl px-4 font-thin">
+                    {% if item.tags %}
+                        Tags: {{item.tags}}
+                    {% else %}
+                        Tags: NA
+                    {% endif %}
+                </p>
+                <!-- Adding the edit and delete icons -->
+                <div class="flex justify-end px-4">
+                    <div class="px-4 pt-0.5">
+                        <a href="{% url 'update' item.id %}" style="color:black"><i class="fa fa-edit"></i></a>
+                    </div>
+                    <div>
+                        <a href="{% url 'delete' item.id %}" style="color:black"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <div>
+            <p class = 'text-3xl'>No items found</p>
+        </div>
+        {% endfor %}
+    </div>
+        <!-- Adding pagination -->
+        <div class="flex flex-col w-1/5 mx-auto">
+            <div class="flex-col mx-auto w-2/5">
+                <p>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </p>
+            </div>
+            <div class = "flex justify-between">
+                <div class="flex items-start">
+                    <p>
+                        {% if page_obj.has_previous %}
+                            <!-- <a href="?page=1">&laquo; first</a> -->
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="flex items-end justify-end">
+                    <p>    
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <!-- <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock content %}

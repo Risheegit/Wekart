@@ -1,0 +1,18 @@
+{% extends 'items/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="flex justify-center pt-8">
+        <div class = "flex-col justify-center items-center bg-blue-300">
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class = "flex flex-col justify-center items-center">
+                    <p class ="text-2xl m-4">Add Item</p>
+                    {{form }}
+                </div>
+                <div class="flex justify-center m-2">
+                    <button class = "rounded-sm border-2" type = "submit">Add </button>
+                </div>				
+            </form>	
+        </div>
+    </div>
+{% endblock content %}

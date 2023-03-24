@@ -1,0 +1,12 @@
+{% extends 'items/base.html' %}
+{% block content %}
+<div class="flex flex-col justify-center items-center bg-pink-500">
+    <div class="">
+        <p>{{items.itemName}}</p>
+        <p>{{items.qty}}</p>
+        <img src={{items.image.url}} alt = "image not found" />
+        <a href = "update/">Update</a>
+        <a href = "delete/">Delete</a>
+    </div>
+</div>
+{% endblock content %}
