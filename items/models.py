@@ -7,6 +7,7 @@ from django.conf import settings
 # Create your models here.
 class Item(models.Model):
     itemName = models.CharField(max_length = 20)
+    shopkeeper = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True)
     qty = models.IntegerField(default = 0)
     favorite = models.BooleanField(default = False)
     price = models.IntegerField(default = 0)
@@ -22,33 +23,17 @@ class Item(models.Model):
     def save(self):
         super().save()
         img = Image.open(self.image.path)
-        if img.height > 300 or img.width > 500 :
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
-        elif img.height < 200 :
-            output_size = (300, 300)
-            img.thumbnail (output_size)
-            img.save(self.image.path)
-        # width = img.width
-        # height = width
-        # SInce width is the same
-        output_size = (500,500)
-        # print('width is ', width)
-        # print('Original height is ', img.height)
+        output_size = (250,250)
         img.thumbnail (output_size)
         img.save(self.image.path)
-
-        super().save()
-        img = Image.open(self.image.path)
         width, height = img.size
         
-        # Define the output size to be 500x500
-        output_size = (500, 500)
-        max_height = 500
-        max_width = 500
+        # # Define the output size to be 500x500
+        # output_size = (500, 500)
+        max_height = 250
+        max_width = 250
     
-    # Calculate the new dimensions while maintaining the aspect ratio
+    # # Calculate the new dimensions while maintaining the aspect ratio
         if height > max_height or width > max_width:
             ratio = max_height / height
             output_size = (int(width * ratio), max_height)

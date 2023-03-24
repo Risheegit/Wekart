@@ -9,14 +9,24 @@ class ItemListView (LoginRequiredMixin, ListView):
     login_url = '/login'
     paginate_by = 8
     model = Item
+    # queryset = Item.objects.filter(shopkeeper = self.request.user)
     template_name = 'items/home.html'
     context_object_name = 'items'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ItemListView, self).get_queryset(*args, **kwargs)
+        qs = qs.filter(shopkeeper = self.request.user)
+        return qs
 
 class ItemCreateView (LoginRequiredMixin, CreateView):
     login_url = '/login'
     model = Item
     fields = ['itemName', 'qty', 'tags', 'image', 'price']
     success_url = '/items'  
+    
+    def form_valid(self, form):
+        form.instance.shopkeeper = self.request.user
+        return super().form_valid(form)
 
 def FavoriteDetailView (request):
     favorites = Item.objects.filter(favorite = True)
@@ -34,17 +44,16 @@ class ItemDeleteView (LoginRequiredMixin, DeleteView):
 	model = Item
 	success_url = '/items'
 
-	# def test_func(self):
-	# 	posts = self.get_object()
-	# 	if self.request.user == posts.op_name :
-	# 		return True
-	# 	return False
+	def test_func(self):
+		items = self.get_object()
+		if self.request.user == items.shopkeeper :
+			return True
+		return False
 
 class AddLike(View):
     def post(self, request, pk, *args, **kwargs):
         item = Item.objects.get(pk=pk)
         status = item.favorite
-        print('status is ', status)
         if status:
             item.favorite = False
         else: 
