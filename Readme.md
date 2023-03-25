@@ -20,7 +20,7 @@ This is a Django-based web application that allows shopkeepers to manage their o
 
 First clone the repository
 
-    git clone [https://github.com/Risheegit/Wekart.git](https://github.com/Risheegit/Wekart.git)
+    git clone https://github.com/Risheegit/Wekart.git
     cd wekart
 
 Create a virtual environment to install dependencies in and activate it:
