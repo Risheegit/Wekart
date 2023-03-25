@@ -3,6 +3,9 @@ from .models import Item
 from django.db.models import Q
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.contrib import messages
 
 # Create your views here.
 class ItemListView (LoginRequiredMixin, ListView):
@@ -24,8 +27,29 @@ class ItemCreateView (LoginRequiredMixin, CreateView):
     fields = ['itemName', 'qty', 'tags', 'image', 'price']
     success_url = '/items'  
     
+    # def form_valid(self, form):
+    #     print('form valid is run')
+    #     instance = form.save(commit=False)
+    #     qty = form.cleaned_data['qty']
+    #     print(qty)
+    #     # if qty < 0:
+    #     #     raise ValidationError('Qty must be positive')
+    #     form.save()
+    #     # messages.success(self.request, _("successful"))
+    #     form.instance.shopkeeper = self.request.user
+    #     return super().form_valid(form)
+
+
+    # def clean_qty(self):
+    #     print('clean_qty called')
+    #     qty = form.cleaned_data['qty']
+    #     if qty < 0:
+    #         raise ValidationError('Quantity must be a positive number')
+    #     return qty
+    
     def form_valid(self, form):
         form.instance.shopkeeper = self.request.user
+        form.cleaned_data['qty'] = self.clean_qty()
         return super().form_valid(form)
 
 def FavoriteDetailView (request):
