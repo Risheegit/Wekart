@@ -153,3 +153,5 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/items'
+
+CSRF_TRUSTED_ORIGINS = ['https://wekart-production.up.railway.app']
