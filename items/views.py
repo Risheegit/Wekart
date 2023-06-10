@@ -40,7 +40,7 @@ class ItemCreateView (LoginRequiredMixin, CreateView):
     #     return super().form_valid(form)
 
 
-    # def clean_qty(self):
+    # def clean_qty(self, form):
     #     print('clean_qty called')
     #     qty = form.cleaned_data['qty']
     #     if qty < 0:
@@ -49,7 +49,7 @@ class ItemCreateView (LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.shopkeeper = self.request.user
-        form.cleaned_data['qty'] = self.clean_qty()
+        # form.cleaned_data['qty'] = self.clean_qty()
         return super().form_valid(form)
 
 def FavoriteDetailView (request):
