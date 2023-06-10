@@ -1,1 +1,1 @@
-web: gunicorn 'wekart.wsgi'
+web: python manage.py migrate && gunicorn wekart.wsgi
