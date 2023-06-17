@@ -1,24 +1,29 @@
 # Wekart
 
-This is a Django-based web application that allows shopkeepers to manage their orders. It includes CRUD functionality, secure login with Google OAuth, and additional features such as tags and favorites.
+This is a Django-based web application [https://wekart-production.up.railway.app/] that allows users to buy and sell items. It includes CRUD functionality, secure login with Google OAuth, analytics with Google Analytics 4, hosted with Raleway and additional features such as wishlist, tags and search functionality.
 
 ## Features
 
 * Create, Read, Update, and Delete orders
 * Secure login with Google OAuth
+* Analytics with Google Analytics 4
 * Add tags to items to make searching easier
 * Search for items by tag or name
-* Mark orders as favorites for quick access and view on a seperate page
+* Wishlist to view and buy items at a later date
 
 ## Technology Used
 
 * Django
-* Tailwind Css
+* Tailwind CSS
+* Postgres SQL
 * Google OAuth
+* Google Analytics
+* Raleway
 
 ## Setup
 
-First clone the repository
+The website can be viewed at https://wekart-production.up.railway.app/[https://wekart-production.up.railway.app/]. 
+To set the website locally, first clone the repository
 
     git clone https://github.com/Risheegit/Wekart.git
     cd wekart
