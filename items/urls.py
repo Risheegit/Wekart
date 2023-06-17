@@ -1,6 +1,6 @@
 from django.urls import path, reverse_lazy
 from . import views
-from .views import ItemListView, ItemCreateView, ItemUpdateView, ItemDeleteView, AddLike, FavoriteDetailView, ItemSearch
+from .views import ItemListView, ItemCreateView, ItemUpdateView, ItemDeleteView, AddLike, FavoriteDetailView, ItemSearch, AddToCart, BuyItem
 
 urlpatterns = [
     path ('', ItemListView.as_view(), name ='home'),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('<pk>/update/', ItemUpdateView.as_view(), name = 'update'),
     path ('<pk>/delete/', ItemDeleteView.as_view(), name ='delete'),
     path ('<pk>/like/', AddLike.as_view(), name ='like'),
+    path('<pk>/add/', AddToCart.as_view(), name = 'add'),
+    path ('<pk>/buy/', BuyItem.as_view(), name ='buy'),
 ]
 

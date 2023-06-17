@@ -11,7 +11,7 @@
 <div class="flex-col flex w-full justify-between items-center items-center bg-gray-700 text-white pb-8">
     <div class="grid md:grid-cols-4  sm:colums-1 m-4 px-4 pb-4 justify-center md:rows-2">
         {% for item in items %}
-            <div class="flex flex-col text-black m-4 p-4 justify-between bg-gray-200 rounded-lg border-black" >
+            <div class="flex flex-col text-black m-4 p-4 justify-between bg-blue-300 opacity-82 rounded-lg border-black" >
                 <!-- Makin like icon -->
                 <div class=" flex items-start justify-end px-4 pt-2">   
                     <form method="POST" action="{% url 'like' item.pk%}" >
@@ -19,13 +19,14 @@
                         <input type="hidden" name="next" value="{{ request.path }}">
                             <button type="submit">
                                 {% if item.favorite %}
-                                <i class="fa-lg fa fa-thumbs-up" style="color:gray"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
                                 {% else %}
-                                <i class="fa fa-lg fa-thumbs-up" style="color:black"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
                                 {% endif %}
                             </button>
                     </form>
                 </div>
+                <!-- Image -->
                 <img class="rounded-full" src={{item.image.url}}/>
                 <p class="pt-4 px-4 text-2xl font-medium">
                     <a href="{% url 'update' item.id%}">
@@ -46,6 +47,9 @@
                 <p class="text-xl px-4 font-sm">
                     Price: {{ item.price }}
                 </p>
+                <p class="text-xl px-4 font-sm">
+                    Seller: {{ item.shopkeeper }}
+                </p>
                 <!-- Make tags appear when they are non empty -->
                 <p class="text-xl px-4 font-thin">
                     {% if item.tags %}
@@ -55,6 +59,7 @@
                     {% endif %}
                 </p>
                 <!-- Adding the edit and delete icons -->
+                {% if item.shopkeeper == user or user.is_staff%}
                 <div class="flex justify-end px-4">
                     <div class="px-4 pt-0.5">
                         <a href="{% url 'update' item.id %}" style="color:black"><i class="fa fa-edit"></i></a>
@@ -62,6 +67,13 @@
                     <div>
                         <a href="{% url 'delete' item.id %}" style="color:black"><i class="fa fa-trash"></i></a>
                     </div>
+                </div>
+                {% endif %}
+                <!-- Adding the buy -->
+                <div class="flex items-center justify-center">
+                    <button class="rounded-lg bg-gray-700 opacity-82 text-white w-40 m-4 hover:scale-105">
+                        <a href="{% url 'buy' item.id %}">Buy</a>
+                    </button>
                 </div>
             </div>
         {% empty %}
@@ -71,30 +83,32 @@
         {% endfor %}
     </div>
         <!-- Adding pagination -->
-        <div class="flex flex-col w-1/5 mx-auto">
-            <div class="flex-col mx-auto w-2/5">
-                <p>
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </p>
-            </div>
-            <div class = "flex justify-between">
-                <div class="flex items-start">
+        {%  if page_obj.paginator.num_pages  %}
+            <div class="flex flex-col w-1/5 mx-auto">
+                <div class="flex-col mx-auto w-2/5">
                     <p>
-                        {% if page_obj.has_previous %}
-                            <!-- <a href="?page=1">&laquo; first</a> -->
-                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                        {% endif %}
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                     </p>
                 </div>
-                <div class="flex items-end justify-end">
-                    <p>    
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                            <!-- <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
-                        {% endif %}
-                    </p>
+                <div class = "flex justify-between">
+                    <div class="flex items-start">
+                        <p>
+                            {% if page_obj.has_previous %}
+                                <!-- <a href="?page=1">&laquo; first</a> -->
+                                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="flex items-end justify-end">
+                        <p>    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                                <!-- <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+                            {% endif %}
+                        </p>
+                    </div>
                 </div>
-            </div>
-    </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock content %}

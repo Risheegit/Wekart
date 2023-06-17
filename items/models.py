@@ -7,12 +7,13 @@ from django.conf import settings
 # Create your models here.
 class Item(models.Model):
     itemName = models.CharField(max_length = 20)
-    shopkeeper = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True)
-    qty = models.PositiveIntegerField(default = 0)
+    shopkeeper = models.ForeignKey(User, on_delete = models.CASCADE)
+    qty = models.PositiveIntegerField(default = 1)
     favorite = models.BooleanField(default = False)
-    price = models.PositiveIntegerField(default = 0)
+    price = models.PositiveIntegerField(default = 1)
     image = models.ImageField(upload_to = 'post_images', default = 'default.jpg')
     tags = models.CharField(max_length=100, blank = True, null = True)
+    cart = models.ManyToManyField(User, blank = True, related_name = 'cart')
 
     def get_tags(self):
         return self.tags.split(',')

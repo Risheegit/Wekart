@@ -7,6 +7,9 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+
 		<link
 			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
 			rel="stylesheet"
@@ -27,12 +30,12 @@
 		</style>
 	</head>
 	<body>
-		<div class="bg-gray-700 w-full h-screen">
+		<div class="bg-gray-700 relative w-full h-screen">
 			<div class="bg-blue-300">
 				<nav class="flex justify-between">
 					<div class="flex justify-start items-start">
 						<ul>
-							<li class="text-3xl p-4 font-semibold">
+							<li class="text-3xl p-4 font-medium">
 								<a href="{% url 'home' %}">Wekart</a>
 							</li>
 						</ul>
@@ -41,57 +44,71 @@
 					<div
 						class="p-4 flex flex-row items-center justify-between bg-blue-300"
 					>
-						<!-- Adding the option to add -->
-						<div class="pt-1.5 pl-1 pb-0">
-							<form method="get" action="{% url 'create' %}">
-								<button type="submit">
-									<i class="fa fa-plus">
-										<span
-											class="pl-1 pt-0.5 pr-4 text-xl font"
-										>
-											Add
-										</span>
-									</i>
-								</button>
-							</form>
-						</div>
-						<!-- Making fav section -->
-						<div class="pt-1.5">
-							<form method="get" action="{% url 'favorites' %}">
-								<button type="submit">
-									<i class="fa fa-star">
-										<span class="pl-1 pt-0.5 pr-4 text-xl">
-											Favourites
-										</span>
-									</i>
-								</button>
+						{% if user.is_authenticated %}
+							<!-- Adding the option to add -->
+							<div class="pt-1.5 pl-1 pb-0 hover:scale-105">
+								<form method="get" action="{% url 'create' %}">
+									<button type="submit">
+										<!-- <i class="fa fa-plus"> -->
+											<span
+												class="pl-1 pt-0.5 pr-4 text-xl font"
+											>
+												Sell Item
+											</span>
+										</i>
+									</button>
+								</form>
+							</div>
+							<!-- Making fav section -->
+							<div class="pt-1.5 hover:scale-105 ">
+								<form method="get" action="{% url 'favorites' %}">
+									<button type="submit">
+										<!-- <i class="fa fa-star"> -->
+											<span class="pl-1 pt-0.5 pr-4 text-xl cursor-pointer hover:scale-125">
+												View Cart
+											</span>
+										</i>
+									</button>
+								</form>
+							</div>
+						{% endif %}
+						<div class="bg-white rounded-lg relative mr-4 hover:scale-105">
+							<form method="GET" action="{% url 'search' %}">
+								<div class="pr-4 border-black rounded-lg">
+									<i class="fa fa-search pl-4"></i>
+									<input
+										type="text"
+										class="bg-white rounded-lg p-2 border-black focus:outline-0"
+										placeholder="Search"
+										name="query"
+										value="{{ request.GET.query }}"
+									/>
+								</div>
 							</form>
 						</div>
 						<!-- Making the search bar -->
-						<form method="GET" action="{% url 'search' %}">
-							<div class="pr-4">
-								<i class="fa fa-search"></i>
-								<input
-									type="text"
-									class="bg-white rounded-lg p-2 border-black"
-									placeholder="Search"
-									padding="100px"
-									size="50"
-									name="query"
-									value="{{ request.GET.query }}"
-								/>
-							</div>
-						</form>
 						<!-- Making logout -->
-						<div>
-							<button type="submit" action="{% url 'logout' %}">
-								<div class="pr-4">
-									<a href="{% url 'logout' %}">
-										<i class="fa fa-lg fa-power-off"></i>
-									</a>
-								</div>
-							</button>
-						</div>
+						{% if user.is_authenticated %}
+							<div class="hover:scale-105">
+								<button type="submit" action="{% url 'logout' %}">
+									<div class="pr-4">
+										<a href="{% url 'logout' %}">
+											<i class="fa fa-lg fa-power-off"></i>
+										</a>
+									</div>
+								</button>
+							</div>
+						{% else %}
+							<div class="hover:scale-105">
+								<button type="submit" action="{% url 'login' %}">
+									<div class="pr-4">
+										<a href="{% url 'login' %}">
+											Login
+										</a>
+									</div>
+								</button>
+							</div>
+						{% endif %}
 					</div>
 				</nav>
 			</div>

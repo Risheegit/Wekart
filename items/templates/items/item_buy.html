@@ -1,0 +1,49 @@
+{% extends 'items/base.html' %}
+{% block content %}
+<div class=" ">
+    <form method="post" action="{% url 'buy' item.pk%}">
+        {% csrf_token %}
+        <!-- <img class="rounded-full" src={{item.image.url}}/> -->
+        <div class="flex flex-col text-black mx-auto mt-20 m-4 p-4 w-2/5 h-500 relative justify-between bg-blue-300 opacity-82 rounded-lg border-black" >
+            <!-- Image -->
+            <img class="rounded-full" src={{item.image.url}} height="200" width="200"/>
+            <p class="pt-4 px-4 text-2xl font-medium">
+                <a href="{% url 'update' item.id%}">
+                    {{ item.itemName }}
+                </a>
+            </p>
+            <div class="flex">
+                <p class="text-xl px-4 font-sm">
+                    <a href="{% url 'update' item.id%}">
+                        {% if item.qty >= 0 %}
+                            Qty remaining: <p class="font-sm text-xl hover:text-gray-500">{{ item.qty }}</p>
+                        {% else %}
+                            Qty remaining: <p class="font-sm text-xl hover:text-gray-500">0</p>
+                        {% endif %}
+                    </a>
+                </p>
+            </div>
+            <p class="text-xl px-4 font-sm">
+                Price: {{ item.price }}
+            </p>
+            <p class="text-xl px-4 font-sm">
+                Seller: {{ item.shopkeeper }}
+            </p>
+            <!-- Make tags appear when they are non empty -->
+            <p class="text-xl px-4 font-thin">
+                {% if item.tags %}
+                    Tags: {{item.tags}}
+                {% else %}
+                    Tags: NA
+                {% endif %}
+            </p>
+             <!-- Mkaing the buy -->
+             <div class="flex flex-col right-20 top-20 absolute">
+                <p class="text-2xl ml-2">Enter quantity: </p>
+                <input class="rounded-lg border-black m-2 focus:outline-0" type="number" name="quantity" id="quantity" required max="{{ max_value }}">
+                <button type="submit" class="bg-gray-700 opacity-82 text-white rounded-lg w-40 m-2 hover:scale-105">Purchase</button>
+             </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}
