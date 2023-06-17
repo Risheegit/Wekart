@@ -1,6 +1,6 @@
 # Wekart
 
-This is a Django-based web application [https://wekart-production.up.railway.app/] that allows users to buy and sell items. It includes CRUD functionality, secure login with Google OAuth, analytics with Google Analytics 4, hosted with Raleway and additional features such as wishlist, tags and search functionality.
+This is a Django-based web application [https://wekart-production.up.railway.app/](https://wekart-production.up.railway.app/) that allows users to buy and sell items. It includes CRUD functionality, secure login with Google OAuth, analytics with Google Analytics 4, hosted with Raleway and additional features such as wishlist, tags and search functionality.
 
 ## Features
 
@@ -18,11 +18,11 @@ This is a Django-based web application [https://wekart-production.up.railway.app
 * Postgres SQL
 * Google OAuth
 * Google Analytics
-* Raleway
+* Railway
 
 ## Setup
 
-The website can be viewed at https://wekart-production.up.railway.app/[https://wekart-production.up.railway.app/]. 
+The website can be viewed at [https://wekart-production.up.railway.app/](https://wekart-production.up.railway.app/). 
 To set the website locally, first clone the repository
 
     git clone https://github.com/Risheegit/Wekart.git
