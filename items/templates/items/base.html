@@ -109,13 +109,10 @@
 							</div>
 						{% else %}
 							<div class="hover:scale-105">
-								<button type="submit" action="{% url 'login' %}">
-									<div class="pr-4">
-										<a href="{% url 'login' %}">
-											Login
-										</a>
-									</div>
-								</button>
+								<form action="{% provider_login_url 'google' %}" method="post">
+									{% csrf_token %}
+									<button type="submit" class="text-xl p-2"><span class="text-xl ">Sign In</span></button>
+								  </form>
 							</div>
 						{% endif %}
 					</div>

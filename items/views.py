@@ -17,10 +17,14 @@ class ItemListView (ListView):
     context_object_name = 'items'
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(ItemListView, self).get_queryset(*args, **kwargs)
-        qs = qs.exclude(shopkeeper = self.request.user)
-        qs = qs.filter(qty__gt=0)
-        return qs
+        if self.request.user.is_authenticated:
+            qs = super(ItemListView, self).get_queryset(*args, **kwargs)
+            qs = qs.exclude(shopkeeper = self.request.user)
+            qs = qs.filter(qty__gt=0)
+            return qs
+        else :
+            qs = super(ItemListView, self).get_queryset(*args, **kwargs)
+            return qs
 
 class ItemCreateView (LoginRequiredMixin, CreateView):
     login_url = '/login'
